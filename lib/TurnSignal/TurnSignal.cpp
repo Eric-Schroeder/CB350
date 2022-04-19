@@ -2,7 +2,7 @@
 #include "Arduino.h"
 #include "TurnSignal.h"
 
-TurnSignal::TurnSignal(int direction) {
+TurnSignal::TurnSignal(uint8_t direction) {
     if (direction == 0) {
       rear1 = leftRear1;
       rear2 = leftRear2;

@@ -2,7 +2,7 @@
 #include "Input.h"
 #include "Arduino.h"
 
-Input::Input(int input) {
+Input::Input(uint8_t input) {
     _switch = input;
 }
 

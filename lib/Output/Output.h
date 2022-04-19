@@ -11,11 +11,14 @@ class Output {
     public: 
         Output();
         void begin();
-        void runSignal(int turnSignalSwitchState, int runningLightSwitchState, int brakeSwitchState, TurnSignal& signalObject);
-        void brakeLight(int brakeSwitchState, int lowBeamSwitchState);
-        void runningLights(int switchState);
-        void highBeamIndicatorLight(int switchstate);
-        void neutralIndicatorLight(int switchstate, int lowBeamSwitchState);
+        void runSignal(uint8_t turnSignalSwitchState, uint8_t runningLightSwitchState, uint8_t brakeSwitchState, TurnSignal& signalObject);
+        void brakeLight(uint8_t brakeSwitchState, uint8_t lowBeamSwitchState);
+        void runningLights(uint8_t switchState);
+        void highBeamIndicatorLight(uint8_t switchstate);
+        void neutralIndicatorLight(uint8_t switchstate, uint8_t lowBeamSwitchState);
+        void rainbow(uint8_t wait);
+        void rainbowCycle(uint8_t wait);
+        void wheel(uint8_t ledn, uint16_t WheelPos);
         
     private:    
         Adafruit_TLC59711 *_tlc;  
@@ -23,55 +26,52 @@ class Output {
         uint8_t clock = 13;
         uint8_t data = 11;
 
-        long previousTime = 0;
+        uint32_t previousTime = 0;
 
         // Switch modes
-        int rightSignalOn = 0;
-        int leftSignalOn = 1;
+        uint8_t rightSignalOn = 0;
+        uint8_t leftSignalOn = 1;
 
         // TLC channels (rgb)
-        int rightRear1 = 2;
-        int rightRear2 = 1;
-        int rightRear3 = 0;
-        int leftRear1 = 7;
-        int leftRear2 = 4;
-        int leftRear3 = 5;
-        int rightBrake = 3;
-        int leftBrake = 6;
-        int rightFront = 10;
-        int leftFront = 11;
+        uint8_t rightRear1 = 2;
+        uint8_t rightRear2 = 1;
+        uint8_t rightRear3 = 0;
+        uint8_t leftRear1 = 7;
+        uint8_t leftRear2 = 4;
+        uint8_t leftRear3 = 5;
+        uint8_t rightBrake = 3;
+        uint8_t leftBrake = 6;
+        uint8_t rightFront = 10;
+        uint8_t leftFront = 11;
 
         // TLC channels (single)
-        int highBeamIndicator = 26; 
-        int turnIndicator = 27;
-        int gaugeLight = 28;
-        int neutralIndicator = 29;
+        uint8_t highBeamIndicator = 26; 
+        uint8_t turnIndicator = 27;
+        uint8_t gaugeLight = 28;
+        uint8_t neutralIndicator = 29;
 
         // States
-        int brakeState = 0;
-        int runningLightState = 0;
-        int highBeamIndicatorState = 0;
-        int neutralIndicatorState = 0;
+        uint8_t brakeState = 0;
+        uint8_t runningLightState = 0;
+        uint8_t highBeamIndicatorState = 0;
+        uint8_t neutralIndicatorState = 0;
 
-        // LED Values
-        int rRed = 65535;
-        int gRed = 0;
-        int bRed = 0;
+        // Brake light color
+        uint16_t brake[3] = {65535, 0, 0};
 
-        int rLightRed = 5000;
-        int gLightRed = 0;
-        int bLightRed = 0;
+        // Running light color
+        uint16_t runningLight[3] = {5000, 0, 0};
 
-        int rOrange = 65535;
-        int gOrange = 30000;
-        int bOrange = 0;
+        // Turn signal color
+        uint16_t signal[3] = {65535, 30000, 0};
 
-        int turnSignalIndicatorBrightness = 30000;
-        int turnSignalIndicatorBrightnessLow = 5000;
-        int gaugeLightBrightness = 65535;
-        int highBeamIndicatorBrightness = 5000;
-        int neutralIndicatorBrightness = 65535;
-        int neutralIndicatorBrightnessLow = 10000;
+        // Single channel LED brightness values
+        uint16_t turnSignalIndicatorBrightness = 30000;
+        uint16_t turnSignalIndicatorBrightnessLow = 5000;
+        uint16_t gaugeLightBrightness = 65535;
+        uint16_t highBeamIndicatorBrightness = 5000;
+        uint16_t neutralIndicatorBrightness = 65535;
+        uint16_t neutralIndicatorBrightnessLow = 10000;
 };
 
 #endif

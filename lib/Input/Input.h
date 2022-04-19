@@ -5,12 +5,12 @@
 
 class Input {
     public:
-        Input(int input);
+        Input(uint8_t input);
         void setupSwitch();
         void updateSwitch();
 
-        int switchState = 0;
-        int _switch;
+        uint8_t switchState = 0;
+        uint8_t _switch;
 };
 
 #endif

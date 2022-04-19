@@ -2,7 +2,7 @@
 #include "Relay.h"
 #include "Arduino.h"
 
-Relay::Relay(int relay) {
+Relay::Relay(uint8_t relay) {
     relayPin = relay;
 }
 
@@ -11,7 +11,7 @@ void Relay::setupRelay() {
     digitalWrite(relayPin, HIGH);
 }
 
-void Relay::updateRelay(int switchstate) {
+void Relay::updateRelay(uint8_t switchstate) {
     if (switchstate == 1 && relayState == 0) {
         digitalWrite(relayPin, LOW);
         relayState = 1;

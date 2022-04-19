@@ -12,17 +12,18 @@ Output::Output() {
 void Output::begin() {
     _tlc->begin();
     _tlc->write();
+    rainbow(1);
 }
 
-void Output::runSignal(int turnSignalSwitchState, int runningLightSwitchState, int brakeSwitchState, TurnSignal& signalObject) {
+void Output::runSignal(uint8_t turnSignalSwitchState, uint8_t runningLightSwitchState, uint8_t brakeSwitchState, TurnSignal& signalObject) {
      if (turnSignalSwitchState == 1) {
-        long currentTime = millis();
-
+        uint32_t currentTime = millis();
+        
         if ((signalObject.stateIndicator == 0) && (currentTime - signalObject.previousTime >= 500)) {
-            _tlc->setLED(signalObject.rear1, rOrange, gOrange, bOrange);
-            _tlc->setLED(signalObject.rear2, rOrange, gOrange, bOrange);
-            _tlc->setLED(signalObject.rear3, rOrange, gOrange, bOrange);
-            _tlc->setLED(signalObject.front, rOrange, gOrange, bOrange);
+            _tlc->setLED(signalObject.rear1, signal[0], signal[1], signal[2]);
+            _tlc->setLED(signalObject.rear2, signal[0], signal[1], signal[2]);
+            _tlc->setLED(signalObject.rear3, signal[0], signal[1], signal[2]);
+            _tlc->setLED(signalObject.front, signal[0], signal[1], signal[2]);
             if (runningLightSwitchState == 1) {
                 _tlc->setPWM(turnIndicator, turnSignalIndicatorBrightnessLow);        
             } else {
@@ -35,13 +36,13 @@ void Output::runSignal(int turnSignalSwitchState, int runningLightSwitchState, i
 
         if ((signalObject.stateIndicator == 1) && (currentTime - signalObject.previousTime >= 500)) {
             if (runningLightSwitchState == 1 && brakeSwitchState == 0) {
-                _tlc->setLED(signalObject.rear1, rLightRed, gLightRed, bLightRed);
-                _tlc->setLED(signalObject.rear2, rLightRed, gLightRed, bLightRed);
-                _tlc->setLED(signalObject.rear3, rLightRed, gLightRed, bLightRed); 
+                _tlc->setLED(signalObject.rear1, runningLight[0], runningLight[1], runningLight[2]);
+                _tlc->setLED(signalObject.rear2, runningLight[0], runningLight[1], runningLight[2]);
+                _tlc->setLED(signalObject.rear3, runningLight[0], runningLight[1], runningLight[2]); 
             } else if (brakeSwitchState == 1) {
-                _tlc->setLED(signalObject.rear1, rRed, gRed, bRed);
-                _tlc->setLED(signalObject.rear2, rRed, gRed, bRed);
-                _tlc->setLED(signalObject.rear3, rRed, gRed, bRed);
+                _tlc->setLED(signalObject.rear1, brake[0], brake[1], brake[2]);
+                _tlc->setLED(signalObject.rear2, brake[0], brake[1], brake[2]);
+                _tlc->setLED(signalObject.rear3, brake[0], brake[1], brake[2]);
             } else {
                 _tlc->setLED(signalObject.rear1, 0, 0, 0);
                 _tlc->setLED(signalObject.rear2, 0, 0, 0);
@@ -55,13 +56,13 @@ void Output::runSignal(int turnSignalSwitchState, int runningLightSwitchState, i
         }
     } else if (turnSignalSwitchState == 0 && signalObject.stateIndicator == 1) {
         if (runningLightSwitchState == 1 && brakeSwitchState == 0) {
-            _tlc->setLED(signalObject.rear1, rLightRed, gLightRed, bLightRed);
-            _tlc->setLED(signalObject.rear2, rLightRed, gLightRed, bLightRed);
-            _tlc->setLED(signalObject.rear3, rLightRed, gLightRed, bLightRed);
+            _tlc->setLED(signalObject.rear1, runningLight[0], runningLight[1], runningLight[2]);
+            _tlc->setLED(signalObject.rear2, runningLight[0], runningLight[1], runningLight[2]);
+            _tlc->setLED(signalObject.rear3, runningLight[0], runningLight[1], runningLight[2]);
         } else if (brakeSwitchState == 1) {
-            _tlc->setLED(signalObject.rear1, rRed, gRed, bRed);
-            _tlc->setLED(signalObject.rear2, rRed, gRed, bRed);
-            _tlc->setLED(signalObject.rear3, rRed, gRed, bRed);
+            _tlc->setLED(signalObject.rear1, brake[0], brake[1], brake[2]);
+            _tlc->setLED(signalObject.rear2, brake[0], brake[1], brake[2]);
+            _tlc->setLED(signalObject.rear3, brake[0], brake[1], brake[2]);
         } else {
             _tlc->setLED(signalObject.rear1, 0, 0, 0);
             _tlc->setLED(signalObject.rear2, 0, 0, 0);
@@ -74,28 +75,28 @@ void Output::runSignal(int turnSignalSwitchState, int runningLightSwitchState, i
     }
 }
 
-void Output::brakeLight(int brakeSwitchState, int lowBeamSwitchState) {
+void Output::brakeLight(uint8_t brakeSwitchState, uint8_t lowBeamSwitchState) {
     if (brakeSwitchState == 1 && brakeState == 0) {
-        _tlc->setLED(rightRear1, rRed, gRed, bRed);
-        _tlc->setLED(rightRear2, rRed, gRed, bRed);
-        _tlc->setLED(rightRear3, rRed, gRed, bRed);
-        _tlc->setLED(leftRear1, rRed, gRed, bRed);
-        _tlc->setLED(leftRear2, rRed, gRed, bRed);    
-        _tlc->setLED(leftRear3, rRed, gRed, bRed);
-        _tlc->setLED(leftBrake, rRed, gRed, bRed);            
-        _tlc->setLED(rightBrake, rRed, gRed, bRed);
+        _tlc->setLED(rightRear1, brake[0], brake[1], brake[2]);
+        _tlc->setLED(rightRear2, brake[0], brake[1], brake[2]);
+        _tlc->setLED(rightRear3, brake[0], brake[1], brake[2]);
+        _tlc->setLED(leftRear1, brake[0], brake[1], brake[2]);
+        _tlc->setLED(leftRear2, brake[0], brake[1], brake[2]);    
+        _tlc->setLED(leftRear3, brake[0], brake[1], brake[2]);
+        _tlc->setLED(leftBrake, brake[0], brake[1], brake[2]);            
+        _tlc->setLED(rightBrake, brake[0], brake[1], brake[2]);
         _tlc->write();
         brakeState = 1;
     } else if (brakeSwitchState == 0 && brakeState == 1) {
         if (lowBeamSwitchState == 1) {
-            _tlc->setLED(rightRear1, rLightRed, gLightRed, bLightRed);
-            _tlc->setLED(rightRear2, rLightRed, gLightRed, bLightRed);
-            _tlc->setLED(rightRear3, rLightRed, gLightRed, bLightRed);
-            _tlc->setLED(leftRear1, rLightRed, gLightRed, bLightRed);
-            _tlc->setLED(leftRear2, rLightRed, gLightRed, bLightRed);    
-            _tlc->setLED(leftRear3, rLightRed, gLightRed, bLightRed);
-            _tlc->setLED(leftBrake, rLightRed, gLightRed, bLightRed);            
-            _tlc->setLED(rightBrake, rLightRed, gLightRed, bLightRed);
+            _tlc->setLED(rightRear1, runningLight[0], runningLight[1], runningLight[2]);
+            _tlc->setLED(rightRear2, runningLight[0], runningLight[1], runningLight[2]);
+            _tlc->setLED(rightRear3, runningLight[0], runningLight[1], runningLight[2]);
+            _tlc->setLED(leftRear1, runningLight[0], runningLight[1], runningLight[2]);
+            _tlc->setLED(leftRear2, runningLight[0], runningLight[1], runningLight[2]);    
+            _tlc->setLED(leftRear3, runningLight[0], runningLight[1], runningLight[2]);
+            _tlc->setLED(leftBrake, runningLight[0], runningLight[1], runningLight[2]);            
+            _tlc->setLED(rightBrake, runningLight[0], runningLight[1], runningLight[2]);
             _tlc->write();
         } else {
             _tlc->setLED(rightRear1, 0, 0, 0);
@@ -112,16 +113,16 @@ void Output::brakeLight(int brakeSwitchState, int lowBeamSwitchState) {
     }   
 }
 
-void Output::runningLights(int switchState) {
+void Output::runningLights(uint8_t switchState) {
     if (switchState == 1 && runningLightState == 0) {
-        _tlc->setLED(rightRear1, rLightRed, gLightRed, bLightRed);
-        _tlc->setLED(rightRear2, rLightRed, gLightRed, bLightRed);
-        _tlc->setLED(rightRear3, rLightRed, gLightRed, bLightRed);
-        _tlc->setLED(leftRear1, rLightRed, gLightRed, bLightRed);
-        _tlc->setLED(leftRear2, rLightRed, gLightRed, bLightRed);    
-        _tlc->setLED(leftRear3, rLightRed, gLightRed, bLightRed);
-        _tlc->setLED(leftBrake, rLightRed, gLightRed, bLightRed);            
-        _tlc->setLED(rightBrake, rLightRed, gLightRed, bLightRed);
+        _tlc->setLED(rightRear1, runningLight[0], runningLight[1], runningLight[2]);
+        _tlc->setLED(rightRear2, runningLight[0], runningLight[1], runningLight[2]);
+        _tlc->setLED(rightRear3, runningLight[0], runningLight[1], runningLight[2]);
+        _tlc->setLED(leftRear1, runningLight[0], runningLight[1], runningLight[2]);
+        _tlc->setLED(leftRear2, runningLight[0], runningLight[1], runningLight[2]);    
+        _tlc->setLED(leftRear3, runningLight[0], runningLight[1], runningLight[2]);
+        _tlc->setLED(leftBrake, runningLight[0], runningLight[1], runningLight[2]);            
+        _tlc->setLED(rightBrake, runningLight[0], runningLight[1], runningLight[2]);
         _tlc->setPWM(gaugeLight, gaugeLightBrightness);
         _tlc->write();
         runningLightState = 1;
@@ -140,7 +141,7 @@ void Output::runningLights(int switchState) {
     }
 }
 
-void Output::highBeamIndicatorLight(int switchState) {
+void Output::highBeamIndicatorLight(uint8_t switchState) {
     if (switchState == 1 && highBeamIndicatorState == 0) {
         _tlc->setPWM(highBeamIndicator, highBeamIndicatorBrightness);
         _tlc->write();
@@ -152,7 +153,7 @@ void Output::highBeamIndicatorLight(int switchState) {
     }
 }
 
-void Output::neutralIndicatorLight(int neutralSwitchstate, int lowBeamSwitchState) {
+void Output::neutralIndicatorLight(uint8_t neutralSwitchstate, uint8_t lowBeamSwitchState) {
     if (neutralSwitchstate == 1 && neutralIndicatorState == 0) {
         if (lowBeamSwitchState == 1) {
             _tlc->setPWM(neutralIndicator, neutralIndicatorBrightnessLow);    
@@ -167,4 +168,35 @@ void Output::neutralIndicatorLight(int neutralSwitchstate, int lowBeamSwitchStat
         neutralIndicatorState = 0;
     }
     
+}
+
+// Rainbow all LEDs at the same time, same color
+void Output::rainbow(uint8_t wait) {
+  uint32_t i, j;
+
+  for(j=0; j<65535; j+=100) {
+    for(i=0; i<4*numDrivers; i++) {
+      wheel(i, (i+j) & 65535);
+    }
+    _tlc->write();
+    delay(wait);
+  }
+
+    delay(2000);
+    for (i = 0; i < 4*numDrivers; i++) {
+         _tlc->setLED(i, 0, 0, 0);
+    }
+    _tlc->write();
+}
+
+void Output::wheel(uint8_t ledn, uint16_t WheelPos) {
+  if(WheelPos < 21845) {
+    _tlc->setLED(ledn, 3*WheelPos, 65535 - 3*WheelPos, 0);
+  } else if(WheelPos < 43690) {
+    WheelPos -= 21845;
+    _tlc->setLED(ledn, 65535 - 3*WheelPos, 0, 3*WheelPos);
+  } else {
+    WheelPos -= 43690;
+    _tlc->setLED(ledn, 0, 3*WheelPos, 65535 - 3*WheelPos);
+  }
 }
