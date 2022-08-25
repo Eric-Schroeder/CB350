@@ -57,15 +57,15 @@ class Output {
         uint8_t neutralIndicatorState = 0;
 
         // Brake light color
-        uint16_t brake[3] = {65535, 0, 0};
+        uint16_t brake[3] = {65535, 0, 0};  // Bright red
 
         // Running light color
-        uint16_t runningLight[3] = {5000, 0, 0};
+        uint16_t runningLight[3] = {5000, 0, 0};  // Light red
 
         // Turn signal color
-        uint16_t signal[3] = {65535, 30000, 0};
+        uint16_t signal[3] = {65535, 30000, 0};  // Yellowish Orange
 
-        // Single channel LED brightness values
+        // Single channel LED brightness values (0 - 65535)
         uint16_t turnSignalIndicatorBrightness = 30000;
         uint16_t turnSignalIndicatorBrightnessLow = 5000;
         uint16_t gaugeLightBrightness = 65535;

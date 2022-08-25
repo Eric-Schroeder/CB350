@@ -17,9 +17,8 @@ Input hornSwitch = Input(14);
 
 Output outputs = Output();
 
-// Right = 1; Left = 0
-TurnSignal rightSignal = TurnSignal(1);
-TurnSignal leftSignal = TurnSignal(0);
+TurnSignal rightSignal = TurnSignal(1);  // Right = 1
+TurnSignal leftSignal = TurnSignal(0);  // Left = 0
 
 Relay hornRelay = Relay(5);
 Relay lowBeamRelay = Relay(6);

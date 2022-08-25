@@ -16,14 +16,18 @@ void Output::begin() {
 }
 
 void Output::runSignal(uint8_t turnSignalSwitchState, uint8_t runningLightSwitchState, uint8_t brakeSwitchState, TurnSignal& signalObject) {
-     if (turnSignalSwitchState == 1) {
+    // Blinks the signal obect, right side or left, when the switch is on. The rear signal is also the brake/running lights. 
+    // Depending on the switch states of the brakes and running lights the signal will alternate between on/off, on/runnning lights, or on/brake lights 
+    if (turnSignalSwitchState == 1) {
         uint32_t currentTime = millis();
         
+        // If signal switch is on and signal is not on and it's been half a second, turn it on
         if ((signalObject.stateIndicator == 0) && (currentTime - signalObject.previousTime >= 500)) {
             _tlc->setLED(signalObject.rear1, signal[0], signal[1], signal[2]);
             _tlc->setLED(signalObject.rear2, signal[0], signal[1], signal[2]);
             _tlc->setLED(signalObject.rear3, signal[0], signal[1], signal[2]);
             _tlc->setLED(signalObject.front, signal[0], signal[1], signal[2]);
+            // If the running lights are on, the turn signal indicator will be dimmed
             if (runningLightSwitchState == 1) {
                 _tlc->setPWM(turnIndicator, turnSignalIndicatorBrightnessLow);        
             } else {
@@ -33,7 +37,7 @@ void Output::runSignal(uint8_t turnSignalSwitchState, uint8_t runningLightSwitch
             signalObject.previousTime = currentTime;
             signalObject.stateIndicator = 1;  
         }
-
+        // If signal switch is on and signal is on and it's been half a second, turn it off
         if ((signalObject.stateIndicator == 1) && (currentTime - signalObject.previousTime >= 500)) {
             if (runningLightSwitchState == 1 && brakeSwitchState == 0) {
                 _tlc->setLED(signalObject.rear1, runningLight[0], runningLight[1], runningLight[2]);

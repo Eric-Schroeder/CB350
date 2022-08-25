@@ -13,3 +13,5 @@ Outputs:
 2. Low beam relay
 3. High beam relay
 4. Horn relay
+
+Update: I was having issues with TLC59711 led driver. When a channel would change state other channels would output a single blink (a few milliseconds duration). The fix for this was to change a few values in the Adafruit_TLC59711.cpp library. On lines 46 and 63 the value of 1000000 was changed to 200000. This stopped the unintentional blinking. 
