@@ -18,6 +18,7 @@ void Output::begin() {
 void Output::runSignal(uint8_t turnSignalSwitchState, uint8_t runningLightSwitchState, uint8_t brakeSwitchState, TurnSignal& signalObject) {
     // Blinks the signal obect, right side or left, when the switch is on. The rear signal is also the brake/running lights. 
     // Depending on the switch states of the brakes and running lights the signal will alternate between on/off, on/runnning lights, or on/brake lights 
+    // TODO: figure out how to get the turn signal lights to go in succession and not all at once 
     if (turnSignalSwitchState == 1) {
         uint32_t currentTime = millis();
         
