@@ -20,9 +20,9 @@ Output outputs = Output();
 TurnSignal rightSignal = TurnSignal(1);  // Right = 1
 TurnSignal leftSignal = TurnSignal(0);  // Left = 0
 
-Relay hornRelay = Relay(5);
-Relay lowBeamRelay = Relay(6);
-Relay highBeamRelay = Relay(8);
+Relay hornRelay = Relay(5, 1);
+Relay lowBeamRelay = Relay(6, 0);
+Relay highBeamRelay = Relay(8, 0);
 
 void setup() {
   // Inputs

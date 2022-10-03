@@ -5,12 +5,13 @@
 
 class Relay {
     public:
-        Relay(uint8_t relay);
+        Relay(uint8_t relay, uint8_t normalState);
         void setupRelay();
         void updateRelay(uint8_t switchState);
 
     private:
         uint8_t relayPin;
+        uint8_t relayNormalState;
         uint8_t relayState = 0;
 };
 
